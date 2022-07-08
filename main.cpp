@@ -12,6 +12,8 @@
 #endif
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
 
+#include "implot.h"
+
 // [Win32] Our example includes a copy of glfw3.lib pre-compiled with VS2010 to maximize ease of testing and compatibility with old VS compilers.
 // To link with VS2010-era libraries, VS2015+ requires linking with legacy_stdio_definitions.lib, which we do using this pragma.
 // Your own project should not be affected, as you are likely to link with a newer binary of GLFW that is adequate for your version of Visual Studio.
@@ -71,6 +73,8 @@ int main(int, char**)
     // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
     //io.ConfigViewportsNoAutoMerge = true;
     //io.ConfigViewportsNoTaskBarIcon = true;
+
+    ImPlot::CreateContext();
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
@@ -160,6 +164,23 @@ int main(int, char**)
             ImGui::End();
         }
 
+        // 4. Show a plot
+        {
+            float x_data[1000];
+            for (int i = 0; i < 1000; ++i) x_data[i] = -3.14 + 6.28f / i;
+            float y_data[1000];
+            for (int i = 0; i < 1000; ++i) y_data[i] = x_data[i] - (x_data[i] * x_data[i] * x_data[i]) / 6;
+
+            ImGui::Begin("Plot");
+            if (ImPlot::BeginPlot("My Plot")) 
+            {
+                ImPlot::PlotLine("My Line Plot", x_data, y_data, 1000);
+                ImPlot::EndPlot();
+            }
+            ImGui::End();
+        }
+
+
         // Rendering
         ImGui::Render();
         int display_w, display_h;
@@ -184,6 +205,8 @@ int main(int, char**)
     }
 
     // Cleanup
+    ImPlot::DestroyContext();
+
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
