@@ -1,3 +1,4 @@
 *.o
 *.ini
 main
+.vscode
