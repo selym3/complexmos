@@ -115,7 +115,7 @@ void Engine::cleanup()
     glfwTerminate();
 }
 
-Engine::Engine() : window { nullptr }
+Engine::Engine() : window { nullptr }, state {}
 {
 }
 
