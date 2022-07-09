@@ -4,6 +4,9 @@
 #include <optional>
 
 #include <GLFW/glfw3.h>
+#include <vector>
+
+#include "State.hpp"
 
 namespace complexmos
 {
@@ -13,14 +16,18 @@ namespace complexmos
     private:
         GLFWwindow* window;
 
+        State state;
+        std::vector<Widget> widgets;
+
+    private:
+        void cleanup();
+        void render_widgets();
     public:
         bool setup();
-        void cleanup();
 
         Engine();
 
-        void render_widgets();
-    
+        void add_widget(Widget w);
     public:
         ~Engine();
 

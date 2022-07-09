@@ -1,5 +1,8 @@
 #include <iostream>
+
 #include "src/Engine.hpp"
+#include "src/Widgets.hpp"
+
 using namespace complexmos;
 
 int main(int argc, char** argv)
@@ -7,12 +10,13 @@ int main(int argc, char** argv)
     Engine e;
     if (!e.setup()) return 1;
 
-    std::cout << "Running engine...\n";
+    e.add_widget(TestWidget{});
+    e.add_widget(OtherWidget{});
+
     while (e.is_running())
     {
         e.run();
     }
-    std::cout << "Closing engine...\n";
 
     return 0;
 }
