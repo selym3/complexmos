@@ -6,7 +6,7 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 
-#include "State.hpp"
+#include "Widget.hpp"
 
 namespace complexmos
 {
