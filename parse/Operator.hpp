@@ -26,7 +26,7 @@ namespace parse
     public:
         Operator(const std::string& id, const Eval& eval, Prec prec, Assoc assoc);
 
-        void push(const std::shared_ptr<Token>&, Engine& e) const override;
+        bool push(Engine& e) const override;
         void pop(Engine& e) override;
     };
 }

@@ -9,9 +9,9 @@ LBracket::LBracket()
 {
 }
 
-void LBracket::push(const std::shared_ptr<Token>& self, Engine& e) const
+bool LBracket::push(Engine& e) const
 {
-    e.force_push_token(self);
+    return true;
 }
 
 void LBracket::pop(Engine& e)
@@ -24,13 +24,15 @@ RBracket::RBracket()
 {
 }
 
-void RBracket::push(const std::shared_ptr<Token>& self, Engine& e) const
+bool RBracket::push(Engine& e) const
 {
     while (e.has_tokens() && !e.peek_token().is_left_paren())
         e.pop_token();
     
     if (!e.has_tokens()) throw std::runtime_error{"mismatched parens"};
     e.pop_token();
+
+    return false;
 }
 
 void RBracket::pop(Engine& e)

@@ -11,7 +11,7 @@ Operator::Operator(const std::string& id, const Eval& eval, Prec prec, Assoc ass
 {
 }
 
-void Operator::push(const std::shared_ptr<Token>& self, Engine& e) const
+bool Operator::push(Engine& e) const
 {
     while (e.has_tokens())
     {
@@ -27,7 +27,7 @@ void Operator::push(const std::shared_ptr<Token>& self, Engine& e) const
         }
     }
 
-    e.force_push_token(self);
+    return true;
 }
 
 void Operator::pop(Engine& e)

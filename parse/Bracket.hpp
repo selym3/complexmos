@@ -8,14 +8,14 @@ namespace parse
     struct LBracket : public Token
     {
         LBracket();
-        void push(const std::shared_ptr<Token>&, Engine&) const;
+        bool push(Engine&) const;
         void pop(Engine&);
     };
 
     struct RBracket : public Token
     {
         RBracket();
-        void push(const std::shared_ptr<Token>&, Engine&) const;
+        bool push(Engine&) const;
         void pop(Engine&);
     };
 }

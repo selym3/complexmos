@@ -3,7 +3,6 @@
 
 #include <functional>
 #include <memory>
-#include "Number.hpp"
 
 namespace parse
 {
@@ -24,7 +23,12 @@ namespace parse
     public:
         Token(const std::string& id, const TokenInfo& info);
 
-        virtual void push(const std::shared_ptr<Token>&, Engine&) const = 0;
+        // function that runs before a token is pushed that allows the 
+        // token to handle precedence and returns a boolean if it should
+        // be pushed at all
+        virtual bool push(Engine&) const = 0;
+        
+        // function that runs before a token is removed from the token stack
         virtual void pop(Engine&) = 0;
 
         const std::string& id() const;

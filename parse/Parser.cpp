@@ -66,7 +66,8 @@ void Engine::force_push_token(const std::shared_ptr<Token>& token)
 
 void Engine::push_token(const std::shared_ptr<Token> &token)
 {
-    token->push(token, *this);
+    if (token->push(*this))
+        _tokens.push_back(token);
 }
 
 void Engine::pop_token()
