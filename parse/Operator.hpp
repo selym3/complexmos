@@ -18,10 +18,11 @@ namespace parse
         using Eval = std::function<Number(const Number&, const Number&)>;
 
     private:
-        Assoc _assoc;
-        Prec _prec;
-
         Eval _eval;
+        
+        Prec _prec;
+        Assoc _assoc;
+
 
     public:
         Operator(const std::string& id, const Eval& eval, Prec prec, Assoc assoc);
