@@ -2,10 +2,11 @@
 #define __NUMBER_HPP__
 
 #include <complex>
+#include "./Tree.hpp"
 
 namespace parse
 {
-    using Number = std::complex<double>;
+    using Number = Node;
 }
 
 #endif

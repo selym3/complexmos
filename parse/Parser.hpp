@@ -35,7 +35,9 @@ namespace parse
     {
     public:
         using TokenTable = std::vector<std::shared_ptr<Token>>;
-        static Number parse(const std::string& str, const TokenTable& tokens);
+        using MakeNumber = std::function<Number(double, double)>;
+
+        static Number parse(const std::string& str, const MakeNumber& make, const TokenTable& tokens);
 
     private:
         std::string _str;
@@ -51,10 +53,10 @@ namespace parse
 
         bool is_digit(char c) const;
 
-        void parse(Engine& engine, const TokenTable&);
-        void parse_next(Engine& engine, const TokenTable&);
+        void parse(Engine& engine, const MakeNumber&, const TokenTable&);
+        void parse_next(Engine& engine, const MakeNumber&, const TokenTable&);
 
-        Number parse_number();
+        Number parse_number(const MakeNumber&);
         const std::shared_ptr<Token>& parse_token(const TokenTable&);
 
         void advance();

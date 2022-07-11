@@ -85,11 +85,11 @@ Parser
 
 */
 
-Number Parser::parse(const std::string &str, const TokenTable &tokens)
+Number Parser::parse(const std::string &str, const MakeNumber& make, const TokenTable &tokens)
 {
     Parser p{str};
     Engine e;
-    p.parse(e, tokens);
+    p.parse(e, make, tokens);
     while (e.has_tokens())
         e.pop_token();
     if (e.count_numbers() != 1)
@@ -126,13 +126,13 @@ bool Parser::is_digit(char c) const
     return (std::isdigit(c) != 0);
 }
 
-void Parser::parse(Engine &engine, const TokenTable &tokens)
+void Parser::parse(Engine &engine, const MakeNumber& make, const TokenTable &tokens)
 {
     while (has_char())
-        parse_next(engine, tokens);
+        parse_next(engine, make, tokens);
 }
 
-void Parser::parse_next(Engine &engine, const TokenTable &tokens)
+void Parser::parse_next(Engine &engine, const MakeNumber& make, const TokenTable &tokens)
 {
     if (std::isblank(peek()) || std::isblank(peek()))
     {
@@ -140,7 +140,7 @@ void Parser::parse_next(Engine &engine, const TokenTable &tokens)
     }
     else if (std::isdigit(peek()) || peek() == '.' || peek() == 'i')
     {
-        auto n = parse_number();
+        auto n = parse_number(make);
         // std::cout << "Parsed number: " << n << std::endl;
         engine.push_number(n);
     }
@@ -159,7 +159,7 @@ void Parser::parse_next(Engine &engine, const TokenTable &tokens)
     // advance();
 }
 
-Number Parser::parse_number()
+Number Parser::parse_number(const MakeNumber& make)
 {
     bool reached_decimal = false;
     int number_top = _top;
@@ -187,11 +187,11 @@ Number Parser::parse_number()
     if (has_char() && peek() == 'i')
     {
         advance();
-        return Number{0.0, value};
+        return make(0.0, value);
     }
     else
     {
-        return Number{value, 0.0};
+        return make(value, 0.0);
     }
     // std::cout << std::endl;
 }
