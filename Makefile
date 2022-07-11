@@ -14,30 +14,24 @@
 #CXX = g++
 #CXX = clang++
 
+TARGET = main.cpp
 EXE = main
+
 IMGUI_DIR = ./libs/imgui
 IMPLOT_DIR = ./libs/implot
-SRC_DIR = ./src
-SOURCES = main.cpp
-SOURCES += $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
-SOURCES += $(IMGUI_DIR)/backends/imgui_impl_glfw.cpp $(IMGUI_DIR)/backends/imgui_impl_opengl3.cpp
-SOURCES += $(IMPLOT_DIR)/implot.cpp $(IMPLOT_DIR)/implot_items.cpp $(IMPLOT_DIR)/implot_demo.cpp
-SOURCES += $(wildcard $(SRC_DIR)/*.cpp)
-OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
-UNAME_S := $(shell uname -s)
+PARSE_DIR = ./parse
+
+SOURCES = $(wildcard ./src/*.cpp)
+HEADERS = $(wildcard ./src/*.hpp) $(wildcard ./src/*.h)
+OBJECTS = $(addprefix ./bin/, $(addsuffix .o, $(basename $(notdir $(SOURCES)))))
+
 LINUX_GL_LIBS = -lGL
+UNAME_S := $(shell uname -s)
 
-CXXFLAGS = -std=c++20 -I$(IMPLOT_DIR) -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends
+CXXFLAGS = -std=c++20 -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends -I$(IMPLOT_DIR)
 CXXFLAGS += -g -Wall -Wformat
-LIBS =
+LIBS = $(PARSE_DIR)/bin/*.o $(IMGUI_DIR)/bin/*.o $(IMPLOT_DIR)/bin/*.o
 
-##---------------------------------------------------------------------
-## OPENGL ES
-##---------------------------------------------------------------------
-
-## This assumes a GL ES library available in the system, e.g. libGLESv2.so
-# CXXFLAGS += -DIMGUI_IMPL_OPENGL_ES2
-# LINUX_GL_LIBS = -lGLESv2
 
 ##---------------------------------------------------------------------
 ## BUILD FLAGS PER PLATFORM
@@ -70,30 +64,21 @@ ifeq ($(OS), Windows_NT)
 	CFLAGS = $(CXXFLAGS)
 endif
 
+
+
 ##---------------------------------------------------------------------
 ## BUILD RULES
 ##---------------------------------------------------------------------
 
-%.o:%.cpp
+./bin/%.o : ./src/%.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
-%.o:$(IMGUI_DIR)/%.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
-
-%.o:$(IMGUI_DIR)/backends/%.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
-
-%.o:$(IMPLOT_DIR)/%.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
-
-%.o:$(SRC_DIR)/%.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+$(EXE): $(TARGET) $(OBJECTS) 
+	$(CXX) -o $@ $^ $(CXXFLAGS) $(LIBS)
 
 all: $(EXE)
 	@echo Build complete for $(ECHO_MESSAGE)
-
-$(EXE): $(OBJS)
-	$(CXX) -o $@ $^ $(CXXFLAGS) $(LIBS)
+	./$(EXE)
 
 clean:
 	rm -f $(EXE) $(OBJS)
