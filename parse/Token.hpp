@@ -2,6 +2,7 @@
 #define __TOKEN_HPP__
 
 #include <functional>
+#include <string>
 #include <memory>
 
 namespace parse
