@@ -44,30 +44,7 @@ namespace parse
         complexd operator()(const complexd& z);
     };
 
-    // Node operator+(const Node& lhs, const Node& rhs);
-    // Node operator-(const Node& lhs, const Node& rhs);
-    // Node operator*(const Node& lhs, const Node& rhs);
-    // Node operator/(const Node& lhs, const Node& rhs);
 
-    // Node operator+(const Node& lhs, const Node& rhs)
-    // {
-    //     return BinaryNode{[](complexd l, complexd r) -> complexd { return l + r; }, lhs, rhs};
-    // }
-
-// Node operator-(const Node& lhs, const Node& rhs)
-// {
-//     return BinaryNode{[](auto l, auto r) { return l - r; }, lhs, rhs};
-// }
-
-// Node operator*(const Node& lhs, const Node& rhs)
-// {
-//     return BinaryNode{[](auto l, auto r) { return l * r; }, lhs, rhs};
-// }
-
-// Node operator/(const Node& lhs, const Node& rhs)
-// {
-//     return BinaryNode{[](auto l, auto r) { return l / r; }, lhs, rhs};
-// }
 }
 
 #endif
