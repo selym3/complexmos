@@ -37,7 +37,7 @@ void GraphWidget::operator()(State& state)
     }
 
     ImGui::Begin("Graph");
-    if (ImPlot::BeginPlot("My Plot")) 
+    if (ImPlot::BeginPlot("My Plot", ImVec2(-1, -1))) 
     {
         ImPlot::PlotLine("input", ix.data(), iy.data(), ix.size());
         ImPlot::PlotLine("output", ox.data(), oy.data(), ox.size());
