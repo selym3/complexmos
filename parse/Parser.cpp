@@ -141,32 +141,21 @@ void Parser::parse_next(Engine &engine, const MakeNumber& make, const TokenTable
     else if (std::isdigit(peek()) || peek() == '.' || peek() == 'i')
     {
         auto n = parse_number(make);
-        // std::cout << "Parsed number: " << n << std::endl;
         engine.push_number(n);
     }
     else
     {
         const auto &token = parse_token(tokens);
-        // std::cout << "Found token: " << token->id() << std::endl;
         engine.push_token(token);
     }
-
-    // std::cout << "[";
-    // for (const auto& n : engine._numbers)
-    //     std::cout << n << " ";
-    // std::cout << "]" << std::endl;
-
-    // advance();
 }
 
 Number Parser::parse_number(const MakeNumber& make)
 {
     bool reached_decimal = false;
     int number_top = _top;
-    // std::cout << "Looking: ";
     while (has_char() && (std::isdigit(peek()) || peek() == '.'))
     {
-        // std::cout << peek() << std::endl;
         if (peek() == '.')
         {
             if (reached_decimal)
@@ -175,11 +164,7 @@ Number Parser::parse_number(const MakeNumber& make)
             reached_decimal = true;
         }
         advance();
-        // std::cout << "remaining: " << has_char() << std::endl;
     }
-    // std::cout << " Done looking\n";
-
-    // std::cout << value;
 
     std::string number_str = _str.substr(number_top, _top - number_top);
     double value = (number_str.size() < 1) ? 1.0 : std::stod(number_str);
@@ -193,7 +178,6 @@ Number Parser::parse_number(const MakeNumber& make)
     {
         return make(value, 0.0);
     }
-    // std::cout << std::endl;
 }
 
 const std::shared_ptr<Token> &Parser::parse_token(const TokenTable &tokens)
@@ -218,5 +202,4 @@ const std::shared_ptr<Token> &Parser::parse_token(const TokenTable &tokens)
 void Parser::advance()
 {
     _top++;
-    // if (is_empty())
 }
