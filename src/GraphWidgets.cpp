@@ -56,9 +56,36 @@ GraphSettingsWidget::GraphSettingsWidget() :
         std::make_shared<parse::RBracket>(),
         
         std::make_shared<parse::Operator>(
+            "+", 
+            [](const parse::Number& l, const parse::Number& r) {
+                return parse::BinaryNode{[](auto a, auto b) { return a + b; }, l, r};
+            },
+            1, 
+            parse::Operator::Assoc::LEFT
+        ),
+
+        std::make_shared<parse::Operator>(
+            "-", 
+            [](const parse::Number& l, const parse::Number& r) {
+                return parse::BinaryNode{[](auto a, auto b) { return a - b; }, l, r};
+            },
+            1, 
+            parse::Operator::Assoc::LEFT
+        ),
+
+        std::make_shared<parse::Operator>(
             "*", 
             [](const parse::Number& l, const parse::Number& r) {
                 return parse::BinaryNode{[](auto a, auto b) { return a * b; }, l, r};
+            },
+            1, 
+            parse::Operator::Assoc::LEFT
+        ),
+
+        std::make_shared<parse::Operator>(
+            "/", 
+            [](const parse::Number& l, const parse::Number& r) {
+                return parse::BinaryNode{[](auto a, auto b) { return a / b; }, l, r};
             },
             1, 
             parse::Operator::Assoc::LEFT
