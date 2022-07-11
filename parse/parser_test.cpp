@@ -25,6 +25,9 @@ Node operator/(const Node& lhs, const Node& rhs)
 #include "./Parser.hpp"
 #include "./Operator.hpp"
 #include "./Bracket.hpp"
+#include "./Function.hpp"
+#include "./Variable.hpp"
+#include "./Constant.hpp"
 
 using namespace parse;
 
@@ -70,20 +73,39 @@ int main(int argc, char** argv)
 
             std::make_shared<Operator>("+", [](auto l, auto r) { return l + r;}, 0, Operator::Assoc::LEFT),
             std::make_shared<Operator>("-", [](auto l, auto r) { return l - r;}, 0, Operator::Assoc::LEFT),
-            std::make_shared<Operator>("*", [](auto l, auto r) { return l * r;}, 0, Operator::Assoc::LEFT),
-            std::make_shared<Operator>("/", [](auto l, auto r) { return l / r;}, 0, Operator::Assoc::LEFT),
+            std::make_shared<Operator>("*", [](auto l, auto r) { return l * r;}, 1, Operator::Assoc::LEFT),
+            std::make_shared<Operator>("/", [](auto l, auto r) { return l / r;}, 1, Operator::Assoc::LEFT),
+
+            std::make_shared<Function>(
+                "sin", 
+                [](const Number& z) { return UnaryNode{[](auto a){ return std::sin(a); }, z}; }
+            ),
+
+            std::make_shared<Function>(
+                "cos", 
+                [](const Number& z) { return UnaryNode{[](auto a){ return std::cos(a); }, z}; }
+            ),
+
+            std::make_shared<Function>(
+                "log", 
+                [](const Number& z) { return UnaryNode{[](auto a){ return std::log(a); }, z}; }
+            ),
+
+            std::make_shared<Function>(
+                "first", 
+                [](const Number& a, const Number& b) { return a; }
+            ),
+
+            std::make_shared<Function>(
+                "second", 
+                [](const Number& a, const Number& b) { return b; }
+            ),
+
+            std::make_shared<Variable>("z"),
+            std::make_shared<Constant>("e", ValueNode{2.71828})
         }
     );
-    std::cout << ans(0.0) << std::endl;
-
-    // std::make_shared<Operator>("-", [](auto l, auto r) { return l - r; }, 0, Operator::Assoc::LEFT),
-    // std::make_shared<Operator>("*", [](auto l, auto r) { return l * r; }, 1, Operator::Assoc::LEFT),
-    // std::make_shared<Operator>("/", [](auto l, auto r) { return l / r; }, 1, Operator::Assoc::LEFT),
-
-    // std::make_shared<Operator>("^", [](auto l, auto r) { return std::pow(l, r); }, 2, Operator::Assoc::RIGHT),
-
-    // Parser p { ".14" };
-    // p.parse();
+    write_complex(std::cout, ans(0.0));
 
     return 0;
 }
