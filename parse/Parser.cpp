@@ -134,7 +134,7 @@ void Parser::parse(Engine &engine, const MakeNumber& make, const TokenTable &tok
 
 void Parser::parse_next(Engine &engine, const MakeNumber& make, const TokenTable &tokens)
 {
-    if (std::isblank(peek()) || std::isblank(peek()))
+    if (peek() == ',' || std::isblank(peek()) || std::isblank(peek()))
     {
         advance();
     }
