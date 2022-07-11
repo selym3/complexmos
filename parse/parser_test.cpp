@@ -76,6 +76,15 @@ int main(int argc, char** argv)
             std::make_shared<Operator>("*", [](auto l, auto r) { return l * r;}, 1, Operator::Assoc::LEFT),
             std::make_shared<Operator>("/", [](auto l, auto r) { return l / r;}, 1, Operator::Assoc::LEFT),
 
+            std::make_shared<Operator>(
+                "^", 
+                [](const Number& l, const Number& r) {
+                    return BinaryNode{[](complexd a, complexd b) -> complexd { return std::pow(a, b); }, l, r};
+                }, 
+                2, 
+                Operator::Assoc::RIGHT
+            ),
+
             std::make_shared<Function>(
                 "sin", 
                 [](const Number& z) { return UnaryNode{[](auto a){ return std::sin(a); }, z}; }
@@ -102,10 +111,12 @@ int main(int argc, char** argv)
             ),
 
             std::make_shared<Variable>("z"),
-            std::make_shared<Constant>("e", ValueNode{2.71828})
+            std::make_shared<Constant>("e", ValueNode{2.7182818284590452353602874713526624977572}),
+            std::make_shared<Constant>("pi", ValueNode{3.1415926535897932384626433832795028841972}),
         }
     );
     write_complex(std::cout, ans(0.0));
+    std::cout << std::endl;
 
     return 0;
 }
