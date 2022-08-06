@@ -27,7 +27,7 @@ namespace complexmos
 
         Engine();
 
-        void add_widget(Widget w);
+        void add_widget(const Widget& w);
     public:
         ~Engine();
 

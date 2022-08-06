@@ -126,7 +126,7 @@ void Engine::render_widgets()
         widget(state);
 }
 
-void Engine::add_widget(Widget w) 
+void Engine::add_widget(const Widget& w) 
 {
     widgets.push_back(w);
 }
