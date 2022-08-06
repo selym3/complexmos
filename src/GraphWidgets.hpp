@@ -5,12 +5,25 @@
 #include "../parse/Parser.hpp"
 
 #include <complex>
+#include <vector>
 
 namespace complexmos
 {
 
     struct GraphWidget
     {
+        void operator()(State& state);
+    };
+
+    struct ColorPlotWidget
+    {
+        unsigned int texture;
+        int width, height, channels;
+        std::vector<unsigned char> bytes;
+
+        ColorPlotWidget();
+        ~ColorPlotWidget();
+
         void operator()(State& state);
     };
 

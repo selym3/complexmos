@@ -7,6 +7,9 @@ using namespace complexmos;
 
 #include <cmath>
 
+#include <iostream>
+#include <GLFW/glfw3.h>
+
 
 #include <memory>
 #include "../parse/Tokens.hpp"
@@ -40,6 +43,56 @@ void GraphWidget::operator()(State& state)
         ImPlot::PlotLine("output", ox.data(), oy.data(), ox.size());
         ImPlot::EndPlot();
     }
+
+    ImGui::End();
+}
+
+ColorPlotWidget::ColorPlotWidget()
+{
+    width = 300;
+    height = 300;
+    channels = 3;
+
+    bytes.resize(width * height * 3);
+    for (int row = 0; row < height; ++row)
+    {
+        for (int col = 0; col < width; ++col)
+        {
+            bytes[row * width * channels + col * channels + 0] = 0xff;
+            bytes[row * width * channels + col * channels + 1] = 0x00;
+            bytes[row * width * channels + col * channels + 2] = 0x00;
+        }
+    }
+    std::cout << "hello\n" << std::endl;
+
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+#if defined(GL_UNPACK_ROW_LENGTH) && !defined(__EMSCRIPTEN__)
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+#endif
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, bytes.data());
+}
+
+ColorPlotWidget::~ColorPlotWidget()
+{
+    std::cout << "goodbye\n" << std::endl;
+}
+
+void ColorPlotWidget::operator()(State &state)
+{
+    ImGui::Begin("Color Plot");
+    // ImGui::Draw
+
+    ImGui::Image((void *)(intptr_t)texture, ImVec2(width, height));
+
+    // ImGui::Image(&texture, ImVec2(width, height));
 
     ImGui::End();
 }
