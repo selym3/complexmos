@@ -9,12 +9,7 @@ using namespace complexmos;
 
 
 #include <memory>
-// TODO: package these together Tokens.hpp
-#include "../parse/Operator.hpp"
-#include "../parse/Variable.hpp"
-#include "../parse/Function.hpp"
-#include "../parse/Constant.hpp"
-#include "../parse/Bracket.hpp"
+#include "../parse/Tokens.hpp"
 
 void GraphWidget::operator()(State& state)
 {
