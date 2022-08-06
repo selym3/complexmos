@@ -63,7 +63,6 @@ ColorPlotWidget::ColorPlotWidget()
             bytes[row * width * channels + col * channels + 2] = 0x00;
         }
     }
-    std::cout << "hello\n" << std::endl;
 
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -82,18 +81,14 @@ ColorPlotWidget::ColorPlotWidget()
 
 ColorPlotWidget::~ColorPlotWidget()
 {
-    std::cout << "goodbye\n" << std::endl;
+    // TODO: delete texture?
 }
 
 void ColorPlotWidget::operator()(State &state)
 {
     ImGui::Begin("Color Plot");
-    // ImGui::Draw
 
     ImGui::Image((void *)(intptr_t)texture, ImVec2(width, height));
-
-    // ImGui::Image(&texture, ImVec2(width, height));
-
     ImGui::End();
 }
 
