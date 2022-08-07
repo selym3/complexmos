@@ -28,3 +28,4 @@ This mode is like looking at a slice of the graph, so even though complex functi
 * determine + color where function goes off to infinity in Color Plot
 * automatically determine what a good value of max magntiude is in Color Plot
 * add performance options in Color Plot
+* cooler visualization modes
