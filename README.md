@@ -1,16 +1,20 @@
 # complexmos
 
-complex function graphing calculator built with Dear ImGui
+Complex function graphing calculator built with Dear ImGui
 
-## Plots
+## Plotting Modes
 
-There are two visualizers for complex functions.
+There are two visualizers for complex functions. Each visualizer uses the function specified by `f(z) =` in the settings widget.
+
+### Color Plot
 
 ![color plot](images/color-plot.png)
 
-The color plot mode will treat points on the graph as complex numbers and plug them into the complex function specified by `f` in the settings widget. The magntiude and argument of the output of `f(z)` will be plotted as a color by using the `HSV` color format, where the argument is the hue and the magnitude is the value (colors are always fully saturated). 
+The color plot mode will treat points on the graph as complex numbers and plug them into the complex function specified by `f` in the settings widget. The magntiude and argument of the output of `f(z)` will be plotted as a color by using the `HSV` color format, where the argument is the hue and the magnitude is the value (colors are always fully saturated).
 
 The `max magntiude` settings can scale down the brightness of the graph.
+
+### Graph
 
 ![graph](images/graph.png)
 
