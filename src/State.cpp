@@ -6,6 +6,7 @@ State::State() :
     selected_mode { std::size_t{0} },
     radius { 1.0 },
     points {360},
+    new_expr { false },
     node { parse::VariableNode{} }
 {
 }
