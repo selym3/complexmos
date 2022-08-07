@@ -12,6 +12,7 @@ int main(int argc, char** argv)
 
     e.add_widget(GraphSettingsWidget{});
     e.add_widget(GraphWidget{});
+    e.add_widget(ColorPlotWidget{});
 
     while (e.is_running())
     {
