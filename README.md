@@ -21,3 +21,10 @@ The `max magntiude` settings can scale down the brightness of the graph.
 The graph mode will plot a circle with a radius specified by `radius` on a 2D complex plane. It will take some number of evenly-spaced points on the circle (specified by `points`) and plug them into `f`. The output of the circle after being plugged into `f` will also be plotted.
 
 This mode is like looking at a slice of the graph, so even though complex functions require 4-Dimensions to view fully, this mode fits on a 2D comlpex plane.
+
+## To Implement
+
+* pan / zoom for Color Plot
+* determine + color where function goes off to infinity in Color Plot
+* automatically determine what a good value of max magntiude is in Color Plot
+* add performance options in Color Plot
