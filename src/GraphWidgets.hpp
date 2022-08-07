@@ -1,11 +1,14 @@
 #ifndef __GRAPH_WIDGETS_HPP__
 #define __GRAPH_WIDGETS_HPP__
 
+#include "./Plot.hpp"
+
 #include "State.hpp"
 #include "../parse/Parser.hpp"
 
 #include <complex>
 #include <vector>
+#include <functional>
 
 namespace complexmos
 {
@@ -17,14 +20,16 @@ namespace complexmos
 
     struct ColorPlotWidget
     {
-        unsigned int texture;
-        int width, height, channels;
-        std::vector<unsigned char> bytes;
-
         ColorPlotWidget();
         ~ColorPlotWidget();
 
         void operator()(State& state);
+
+    private:
+        Plot _plot;
+        unsigned int _texture;
+        
+        void save_plot();
     };
 
     struct GraphSettingsWidget
