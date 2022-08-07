@@ -17,7 +17,7 @@ void GraphWidget::operator()(State &state)
 {
     std::vector<double> ix, iy;
     std::vector<double> ox, oy;
-    for (double theta = 0, n = 360.0 / state.points; theta < 360; theta += n)
+    for (double theta = 0, n = 360.0 / state.points; theta <= 360; theta += n)
     {
         std::complex<double> input = std::polar(static_cast<double>(state.radius), theta * M_PI / 180.0);
         // std::cout << input << " " << theta << " " << (theta * M_PI / 180.0 ) << " " << n << std::endl;
@@ -84,6 +84,12 @@ void ColorPlotWidget::operator()(State &state)
             double ux = (col / static_cast<double>(_plot.width())) - 0.5;
             double uy = (row / static_cast<double>(_plot.height())) - 0.5;
 
+            if (_plot.width() > _plot.height()) {
+                ux *= static_cast<double>(_plot.width()) / _plot.height();
+            } else {
+                uy *= static_cast<double>(_plot.height()) / _plot.width();
+            }
+
             std::complex<double> z = { ux, uy };
             std::complex<double> fz = state.node(z);
 
@@ -91,7 +97,7 @@ void ColorPlotWidget::operator()(State &state)
             double radians = std::arg(fz);
             double degrees = (radians / M_PI) * 180 + 180;
 
-            return Color::hsv(degrees, 1.0, mag);
+            return Color::hsv(degrees, 1.0, mag / state.max_magnitude);
         });
 
         save_plot();
@@ -202,9 +208,11 @@ parse::Node GraphSettingsWidget::parse(const std::string &text) const
 void GraphSettingsWidget::operator()(State &state)
 {
     ImGui::Begin("Settings");
-    ImGui::SliderFloat("radius", &state.radius, 0, 25);
-
-    ImGui::InputText("f(z) = ", function_text, IM_ARRAYSIZE(function_text));
+    
+    ImGui::Text("f(z) = "); ImGui::SameLine(); ImGui::InputText("##text-box", function_text, IM_ARRAYSIZE(function_text));
+    ImGui::Text("Radius: "); ImGui::SameLine(); ImGui::SliderFloat("##radius", &state.radius, 0, 100);
+    ImGui::Text("Points: "); ImGui::SameLine(); ImGui::SliderInt("##points", &state.points, 360, 1000);
+    ImGui::Text("Max Magntiude: "); ImGui::SameLine(); ImGui::SliderFloat("##max-magnitude", &state.max_magnitude, 1, 255);
 
     if ((state.new_expr = ImGui::Button("Graph")))
     {

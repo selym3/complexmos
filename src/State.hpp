@@ -10,20 +10,16 @@ namespace complexmos
 {
     struct State
     {
-        constexpr static std::size_t DEFAULT_WIDTH = 300;
-        constexpr static std::size_t DEFAULT_HEIGHT = 300;
+        constexpr static std::size_t DEFAULT_WIDTH = 640;
+        constexpr static std::size_t DEFAULT_HEIGHT = 480;
  
-        const std::vector<std::string> modes;
-        std::size_t selected_mode;
-
         float radius;
-        std::size_t points;
+        int points;
+
+        float max_magnitude;
 
         bool new_expr;
         parse::Node node;
-
-        // double min_x, max_x;
-        // double min_y, max_y;
 
         State();
     };
